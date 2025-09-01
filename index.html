@@ -162,11 +162,16 @@
     .reveal{opacity:0;transform:translateY(14px);filter:saturate(.8);transition:opacity var(--d-mid) var(--ease-spring), transform var(--d-mid) var(--ease-spring), filter var(--d-mid) var(--ease-spring)}
     .reveal.slide-left{transform:translateX(-24px)}
     .reveal.slide-right{transform:translateX(24px)}
-    .reveal.slide-up{transform:translateY(24px)}   /* added */
+    .reveal.slide-up{transform:translateY(24px)}
     .reveal.fade-in{transform:none;opacity:0}
     .reveal.is-visible{opacity:1;transform:none;filter:saturate(1)}
+
+    /* Nice code glow */
     .terminal.reveal.is-visible{box-shadow:0 24px 60px rgba(124,58,237,.18), inset 0 1px 0 rgba(255,255,255,.06)}
+
+    /* Parallax hint */
     .parallax{transform:translateY(0);will-change:transform}
+
     @keyframes spin{to{transform:rotate(360deg)}}
 
     /* Reduced motion */
@@ -193,7 +198,7 @@
 
         <div class="handler-links" title="Handlers">
           <!-- Telegram -->
-          <a href="https://t.me/mkawsarrrr" target="_blank" rel="noopener" aria-label="Telegram">
+          <a id="tgLink" href="https://t.me/mkawsarrrr" rel="noopener" aria-label="Telegram">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.036 15.823l-.376 5.3c.538 0 .77-.23 1.048-.505l2.518-2.41 5.215 3.824c.956.528 1.636.251 1.896-.885l3.435-16.114c.305-1.422-.514-1.977-1.45-1.632L1.12 9.6c-1.39.541-1.369 1.318-.236 1.668l5.36 1.673L18.86 6.33c.6-.394 1.147-.176.697.218"/></svg>
           </a>
           <!-- WhatsApp -->
@@ -238,7 +243,7 @@
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
         <div class="handlers">
-          <a href="https://t.me/mkawsarrrr" target="_blank" rel="noopener" aria-label="Telegram">TG</a>
+          <a id="tgLinkMobile" href="https://t.me/mkawsarrrr" rel="noopener" aria-label="Telegram">TG</a>
           <a href="https://wa.me/8801782603168?text=Hi%20Kawsar%2C%20I%20saw%20your%20portfolio%20and%20want%20to%20discuss%20a%20project." target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
           <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Mahmudur3550943@gmail.com&su=Project%20Inquiry" target="_blank" rel="noopener" aria-label="Gmail">GM</a>
           <a href="tel:+8801782603168" aria-label="Phone">PH</a>
@@ -253,7 +258,7 @@
       <div>
         <h1 class="reveal slide-left" data-delay="0.1">Hi, I'm <span class="grad">Kawsar</span> — I ship <em>Telegram</em> & <em>WhatsApp</em> automations that scale.</h1>
         <p class="subtitle reveal slide-left" data-delay="0.2">Bots, session lifecycle systems, and multi-API tools engineered with typed contracts, structured logging, and secure architectures.</p>
-        <div class="meta class reveal slide-left" data-delay="0.3" data-stagger>
+        <div class="meta reveal slide-left" data-delay="0.3" data-stagger>
           <span class="pill">Aiogram</span><span class="pill">Pyrogram</span><span class="pill">Telethon</span>
           <span class="pill">FastAPI</span><span class="pill">Postgres</span><span class="pill">Redis</span><span class="pill">Docker</span>
         </div>
@@ -447,9 +452,41 @@ if __name__ == "__main__":
       a.addEventListener('click',e=>{
         const id=a.getAttribute('href').slice(1);
         const el=document.getElementById(id);
-        if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});}
+        if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});} 
       });
     });
+
+    // Platform-aware Telegram link (avoid Telegram X)
+    (function () {
+      const username = 'mkawsarrrr';
+      const webLink = `https://web.telegram.org/k/#@${username}`;
+      const defaultLink = `https://t.me/${username}`;
+      const androidIntent =
+        `intent://resolve?domain=${username}` +
+        `#Intent;scheme=tg;package=org.telegram.messenger;` +
+        `S.browser_fallback_url=${encodeURIComponent(webLink)};end`;
+
+      const ua = navigator.userAgent || navigator.vendor || window.opera;
+      const isAndroid = /Android/i.test(ua);
+      const isiOS = /iPhone|iPad|iPod/i.test(ua);
+
+      function resolveLink(){
+        if(isAndroid) return androidIntent;
+        if(isiOS) return webLink;
+        return defaultLink;
+      }
+      function wire(id){
+        const el = document.getElementById(id);
+        if(!el) return;
+        el.addEventListener('click', function(e){
+          const url = resolveLink();
+          try{ e.preventDefault(); window.location.href = url; }
+          catch(_){ /* fallback */ }
+        });
+      }
+      wire('tgLink');
+      wire('tgLinkMobile');
+    })();
 
     // Reveal on scroll
     (function(){
