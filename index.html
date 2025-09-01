@@ -5,30 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kawsar — Automation Engineer (Telegram & WhatsApp)</title>
   <meta name="description" content="Kawsar — Automation engineer specializing in Telegram/WhatsApp bots, session lifecycle, and multi-API orchestration with Python (Aiogram, Pyrogram, Telethon, FastAPI)." />
+  <meta name="theme-color" content="#0b0f17" />
 
-  <!-- Icons / PWA (optional) -->
+  <!-- Optional icons (safe to keep; remove if you don't host these files) -->
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=2">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
   <link rel="manifest" href="/site.webmanifest?v=2">
-  <meta name="theme-color" content="#0b0f17">
 
   <style>
     /* ===== Design Tokens ===== */
-    :root {
+    :root{
       --bg:#0b0f17; --panel:#0f172a; --text:#e6e9ef; --muted:#9aa4b2;
       --brand:#7c3aed; --brand-2:#22d3ee; --border:rgba(255,255,255,.1);
       --radius:16px; --shadow:0 16px 46px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --input-bg: rgba(255,255,255,.06); --input-br: var(--border); --input-tx: var(--text); --ph:#94a3b8;
-      /* Motion tokens */
       --ease-spring: cubic-bezier(.2,.8,.2,1);
-      --d-fast: 320ms; --d-mid: 480ms; --d-slow: 700ms;
-      --stagger: .08s; /* per-item */
+      --d-fast:320ms; --d-mid:480ms; --d-slow:700ms; --stagger:.08s;
     }
     [data-theme="light"]{
-      --bg:#f6f7fb; --panel:#ffffff; --text:#0b0f17; --muted:#475569; --border:#e2e8f0;
+      --bg:#f6f7fb; --panel:#fff; --text:#0b0f17; --muted:#475569; --border:#e2e8f0;
       --shadow:0 16px 46px rgba(3,7,18,.08), inset 0 1px 0 rgba(255,255,255,.8);
       --input-bg:#f8fafc; --input-br:#e2e8f0; --input-tx:#0b0f17; --ph:#8191a7;
     }
@@ -42,8 +40,7 @@
         radial-gradient(900px 600px at 10% -20%, rgba(124,58,237,.18), transparent 40%),
         radial-gradient(800px 500px at 90% -10%, rgba(34,211,238,.14), transparent 45%),
         linear-gradient(var(--bg), var(--bg));
-      color:var(--text);
-      overflow-x:hidden;
+      color:var(--text); overflow-x:hidden;
     }
     a{color:inherit;text-decoration:none}
     img{max-width:100%;display:block}
@@ -55,20 +52,20 @@
     .muted{color:var(--muted)}
 
     /* ===== Nav ===== */
-    .nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);background:linear-gradient(180deg, rgba(15,23,42,.82), rgba(15,23,42,.62));border-bottom:1px solid var(--border)}
+    .nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);
+      background:linear-gradient(180deg, rgba(15,23,42,.82), rgba(15,23,42,.62));
+      border-bottom:1px solid var(--border)}
     .nav-inner{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0}
     .brand{display:flex;align-items:center;gap:10px;font-weight:900}
-    .badge{width:12px;height:12px;border-radius:50%;background:conic-gradient(from 140deg,var(--brand),var(--brand-2));
-      animation: spin 6s linear infinite;
-    }
+    .badge{width:12px;height:12px;border-radius:50%;background:conic-gradient(from 140deg,var(--brand),var(--brand-2));animation:spin 6s linear infinite}
     .links{display:flex;gap:16px;align-items:center}
     .links a{color:var(--muted);font-size:14px;position:relative}
     .links a::after{content:"";position:absolute;left:0;right:100%;bottom:-4px;height:2px;background:linear-gradient(90deg,var(--brand),var(--brand-2));transition:right var(--d-mid) var(--ease-spring)}
     .links a:hover::after{right:0}
     .links a:hover{color:var(--text)}
-    .handler-links{display:flex;gap:10px;align-items:center; position:relative}
+    .handler-links{display:flex;gap:10px;align-items:center}
     .handler-links a{display:inline-grid;place-items:center;width:36px;height:36px;border:1px solid var(--border);border-radius:10px;color:#d1d5db;transition:transform var(--d-fast) var(--ease-spring), border-color var(--d-fast)}
-    .handler-links a:hover{transform:translateY(-2px);color:#ffffff;border-color:#c4b5fd}
+    .handler-links a:hover{transform:translateY(-2px);color:#fff;border-color:#c4b5fd}
     .handler-links svg{width:18px;height:18px;display:block}
     .icon-btn{display:inline-grid;place-items:center;width:38px;height:38px;border:1px solid var(--border);border-radius:12px;background:transparent;color:var(--text);transition:transform var(--d-fast) var(--ease-spring)}
     .icon-btn:active{transform:scale(.96)}
@@ -81,17 +78,13 @@
     @media(max-width:950px){ .links{display:none} .hamburger{display:flex} }
 
     /* Dropdown */
-    .dropdown{
-      position:absolute;top:60px;left:0;right:0;background:var(--panel);
-      border-bottom:1px solid var(--border);max-height:0;overflow:hidden;
-      transition:max-height var(--d-mid) var(--ease-spring);
-    }
+    .dropdown{position:absolute;top:60px;left:0;right:0;background:var(--panel);border-bottom:1px solid var(--border);max-height:0;overflow:hidden;transition:max-height var(--d-mid) var(--ease-spring)}
     .dropdown .wrap{max-width:1100px;margin:0 auto;padding:0;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
     .dropdown.open{max-height:500px}
     .dropdown.open .wrap{padding:12px 20px}
     .dropdown a{color:var(--muted);padding:10px 12px;border:1px solid var(--border);border-radius:10px;transition:transform var(--d-fast) var(--ease-spring), border-color var(--d-fast)}
     .dropdown a:hover{transform:translateY(-2px);color:var(--text);border-color:#c4b5fd}
-    .dropdown .handlers{margin-left:auto;display:flex;gap:10px;position:relative}
+    .dropdown .handlers{margin-left:auto;display:flex;gap:10px}
 
     /* ===== Hero ===== */
     header.hero{padding:70px 0 36px}
@@ -127,7 +120,7 @@
     /* ===== Forms ===== */
     .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px}
     @media(max-width:700px){.row{grid-template-columns:1fr}}
-    input.input, textarea.textarea{display:block;width:100%;padding:14px 16px;border-radius:12px;border:1px solid var(--input-br);background:var(--input-bg);color:var(--input-tx);line-height:1.5;font-size:14px;outline:none;appearance:none;-webkit-appearance:none;-moz-appearance:none;transition:border-color var(--d-fast), box-shadow var(--d-fast)}
+    input.input, textarea.textarea{display:block;width:100%;padding:14px 16px;border-radius:12px;border:1px solid var(--input-br);background:var(--input-bg);color:var(--input-tx);line-height:1.5;font-size:14px;outline:none;appearance:none;transition:border-color var(--d-fast), box-shadow var(--d-fast)}
     input.input::placeholder, textarea.textarea::placeholder{color:var(--ph)}
     input.input:focus, textarea.textarea:focus{border-color:#a78bfa;box-shadow:0 0 0 3px rgba(124,58,237,.25)}
     .textarea{min-height:140px;resize:vertical}
@@ -155,19 +148,10 @@
 
     @keyframes spin{to{transform:rotate(360deg)}}
 
-    /* ===== Telegram chooser menu ===== */
-    .tg-chooser{position:relative}
-    .tg-menu{position:absolute; top:120%; right:0; background:var(--panel); border:1px solid var(--border); border-radius:12px; min-width:220px; box-shadow:var(--shadow); padding:6px; opacity:0; transform:translateY(-6px); pointer-events:none; transition:opacity var(--d-fast) var(--ease-spring), transform var(--d-fast) var(--ease-spring); z-index:60}
-    .tg-menu.open{opacity:1; transform:translateY(0); pointer-events:auto}
-    .tg-menu a{display:flex; gap:8px; align-items:center; padding:10px 12px; border-radius:10px; color:var(--text); border:1px solid transparent}
-    .tg-menu a:hover{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border-color:var(--border)}
-    .tg-sep{height:1px; margin:6px 6px; background:var(--border)}
-
-    /* Reduced motion: respect user preference */
+    /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
       *{animation-duration:1ms !important; animation-iteration-count:1 !important; transition-duration:1ms !important; scroll-behavior:auto !important}
       .reveal, .reveal.slide-left, .reveal.slide-right, .reveal.slide-up{opacity:1 !important; transform:none !important}
-      .tg-menu{transition:none}
     }
   </style>
 </head>
@@ -185,35 +169,24 @@
         <a href="#stack">Stack</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
-
-        <div class="handler-links" title="Handlers">
-          <!-- Telegram (chooser) -->
-          <!-- WhatsApp -->
-          <a href="https://wa.me/8801782603168?text=Hi%20Kawsar%2C%20I%20saw%20your%20portfolio%20and%20want%20to%20discuss%20a%20project." target="_blank" rel="noopener" aria-label="WhatsApp">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.62-6.003C.122 5.3 5.36 0 12.057 0 15.3 0 18.31 1.264 20.5 3.552a11.8 11.8 0 013.557 8.432c-.003 6.697-5.3 11.935-11.996 11.935-2.043 0-4.003-.517-5.766-1.497L.057 24zm6.597-3.807c1.735.995 3.27 1.591 5.392 1.592 5.377.003 9.76-4.372 9.766-9.749.003-5.39-4.36-9.76-9.752-9.764-5.384-.003-9.761 4.372-9.764 9.756-.001 2.266.658 3.985 1.746 5.69l-.999 3.648 3.611-.173z"/></svg>
-          </a>
-          <!-- Gmail (compose in browser) -->
-          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Mahmudur3550943@gmail.com&su=Project%20Inquiry" target="_blank" rel="noopener" aria-label="Gmail">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.5 5.5v13a1.5 1.5 0 01-1.5 1.5h-2V9.708l-6 4.5-6-4.5V20H4A1.5 1.5 0 012.5 18.5v-13a1.5 1.5 0 012.4-1.2l7.6 5.7 7.6-5.7a1.5 1.5 0 012.4 1.2z"/></svg>
-          </a>
-          <!-- Phone -->
-          <a href="tel:+8801782603168" aria-label="Phone">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07A19.5 19.5 0 0 1 3.16 9.81 19.86 19.86 0 0 1 .09 1.18 2 2 0 0 1 2.07-.99h3a2 2 0 0 1 2 1.72c.12.9.32 1.78.61 2.63a2 2 0 0 1-.45 2.11L6.1 7.1a16 16 0 0 0 6.9 6.9l1.63-1.13a2 2 0 0 1 2.11-.45c.85.29 1.73.49 2.63.61A2 2 0 0 1 22 16.92z"/></svg>
-          </a>
-        </div>
-        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
-          <!-- Sun/Moon combo icon -->
-          <svg class="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-        </button>
       </div>
 
-      <button class="hamburger" id="hamburger" aria-label="Menu">
+      <div class="handler-links" title="Handlers">
+        <!-- WhatsApp -->
+        <a href="https://wa.me/8801782603168?text=Hi%20Kawsar%2C%20I%20saw%20your%20portfolio%20and%20want%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.62-6.003C.122 5.3 5.36 0 12.057 0 15.3 0 18.31 1.264 20.5 3.552a11.8 11.8 0 013.557 8.432c-.003 6.697-5.3 11.935-11.996 11.935-2.043 0-4.003-.517-5.766-1.497L.057 24zm6.597-3.807c1.735.995 3.27 1.591 5.392 1.592 5.377.003 9.76-4.372 9.766-9.749.003-5.39-4.36-9.76-9.752-9.764-5.384-.003-9.761 4.372-9.764 9.756-.001 2.266.658 3.985 1.746 5.69l-.999 3.648 3.611-.173z"/></svg>
+        </a>
+        <!-- Gmail (compose in browser) -->
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Mahmudur3550943@gmail.com&su=Project%20Inquiry" target="_blank" rel="noopener noreferrer" aria-label="Gmail">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.5 5.5v13a1.5 1.5 0 01-1.5 1.5h-2V9.708l-6 4.5-6-4.5V20H4A1.5 1.5 0 012.5 18.5v-13a1.5 1.5 0 012.4-1.2l7.6 5.7 7.6-5.7a1.5 1.5 0 012.4 1.2z"/></svg>
+        </a>
+        <!-- Phone -->
+        <a href="tel:+8801782603168" aria-label="Phone">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07A19.5 19.5 0 0 1 3.16 9.81 19.86 19.86 0 0 1 .09 1.18 2 2 0 0 1 2.07-.99h3a2 2 0 0 1 2 1.72c.12.9.32 1.78.61 2.63a2 2 0 0 1-.45 2.11L6.1 7.1a16 16 0 0 0 6.9 6.9l1.63-1.13a2 2 0 0 1 2.11-.45c.85.29 1.73.49 2.63.61A2 2 0 0 1 22 16.92z"/></svg>
+        </a>
+      </div>
+
+      <button class="icon-btn hamburger" id="hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -229,12 +202,8 @@
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
         <div class="handlers">
-          <!-- Simple text trigger for mobile -->
-          <a id="openTgWebMobile" role="menuitem" href="#">Open in Telegram Web</a>
-            </div>
-          </div>
-          <a href="https://wa.me/8801782603168?text=Hi%20Kawsar%2C%20I%20saw%20your%20portfolio%20and%20want%20to%20discuss%20a%20project." target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
-          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Mahmudur3550943@gmail.com&su=Project%20Inquiry" target="_blank" rel="noopener" aria-label="Gmail">GM</a>
+          <a href="https://wa.me/8801782603168?text=Hi%20Kawsar%2C%20I%20saw%20your%20portfolio%20and%20want%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">WA</a>
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Mahmudur3550943@gmail.com&su=Project%20Inquiry" target="_blank" rel="noopener noreferrer" aria-label="Gmail">GM</a>
           <a href="tel:+8801782603168" aria-label="Phone">PH</a>
         </div>
       </div>
@@ -430,7 +399,10 @@ if __name__ == "__main__":
       const burger=document.getElementById('hamburger');
       const dd=document.getElementById('dropdown');
       burger?.addEventListener('click',()=>dd.classList.toggle('open'));
-      dd.querySelectorAll('a[href^="#"]').forEach(a=>{ a.addEventListener('click',()=>dd.classList.remove('open')); });
+      // Close dropdown after clicking an anchor inside it
+      dd.querySelectorAll('a[href^="#"]').forEach(a=>{
+        a.addEventListener('click',()=>dd.classList.remove('open'));
+      });
     })();
 
     // Smooth scroll
@@ -438,15 +410,14 @@ if __name__ == "__main__":
       a.addEventListener('click',e=>{
         const id=a.getAttribute('href').slice(1);
         const el=document.getElementById(id);
-        if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});} 
+        if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});}
       });
     });
 
-    // ===== Reveal on scroll =====
+    // Reveal on scroll
     (function(){
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if(prefersReduced) return; // respect user
-
+      if(prefersReduced) return;
       const els=[...document.querySelectorAll('.reveal')];
       const IO = new IntersectionObserver((entries)=>{
         entries.forEach((entry)=>{
@@ -458,7 +429,7 @@ if __name__ == "__main__":
             IO.unobserve(t);
           }
         })
-      },{root:null,threshold:0.15,rootMargin:'0px 0px -10% 0px'});
+      },{threshold:0.15,rootMargin:'0px 0px -10% 0px'});
       els.forEach(el=>IO.observe(el));
 
       // Stagger helper
@@ -470,7 +441,7 @@ if __name__ == "__main__":
       });
     })();
 
-    // Subtle parallax on the terminal card
+    // Subtle parallax
     (function(){
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if(prefersReduced) return;
@@ -479,7 +450,7 @@ if __name__ == "__main__":
       const onScroll = ()=>{
         const rect = el.getBoundingClientRect();
         const mid = window.innerHeight/2;
-        const offset = (rect.top - mid) * 0.04; // subtle
+        const offset = (rect.top - mid) * 0.04;
         el.style.transform = `translateY(${offset.toFixed(2)}px)`;
       };
       onScroll();
