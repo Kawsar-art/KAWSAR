@@ -422,113 +422,96 @@ if __name__ == "__main__":
   <footer class="reveal fade-in" data-delay="0.1">© <span id="y"></span> Kawsar. All rights reserved.</footer>
 
   <script>
-    // Year
-    document.getElementById('y').textContent=new Date().getFullYear();
+  // Year
+  document.getElementById('y').textContent = new Date().getFullYear();
 
-    // Theme toggle
-    (function(){
-      const btn=document.getElementById('themeToggle');
-      const icon=document.querySelector('.theme-icon');
-      function isLight(){return document.documentElement.getAttribute('data-theme')==='light';}
-      function setTheme(l){document.documentElement.setAttribute('data-theme',l?'light':'dark');}
-      function updateIcon(){icon?.classList.toggle('icon-rotate',isLight());}
-      btn?.addEventListener('click',()=>{setTheme(!isLight());updateIcon();});
-      updateIcon();
-    })();
+  // Theme toggle
+  (function(){
+    const btn = document.getElementById('themeToggle');
+    const icon = document.querySelector('.theme-icon');
+    function isLight(){ return document.documentElement.getAttribute('data-theme') === 'light'; }
+    function setTheme(l){ document.documentElement.setAttribute('data-theme', l ? 'light' : 'dark'); }
+    function updateIcon(){ icon?.classList.toggle('icon-rotate', isLight()); }
+    btn?.addEventListener('click', () => { setTheme(!isLight()); updateIcon(); });
+    updateIcon();
+  })();
 
-    // Hamburger / dropdown
-    (function(){
-      const burger=document.getElementById('hamburger');
-      const dd=document.getElementById('dropdown');
-      burger?.addEventListener('click',()=>dd.classList.toggle('open'));
-      // Close dropdown on link click
-      dd.querySelectorAll('a[href^="#"]').forEach(a=>{
-        a.addEventListener('click',()=>dd.classList.remove('open'));
-      });
-    })();
-
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click',e=>{
-        const id=a.getAttribute('href').slice(1);
-        const el=document.getElementById(id);
-        if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});} 
-      });
+  // Hamburger / dropdown
+  (function(){
+    const burger = document.getElementById('hamburger');
+    const dd = document.getElementById('dropdown');
+    burger?.addEventListener('click', () => dd.classList.toggle('open'));
+    // Close dropdown on link click
+    dd.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click',()=>dd.classList.remove('open'));
     });
+  })();
 
-    // Platform-aware Telegram link (avoid Telegram X)
-    (function () {
-      const username = 'mkawsarrrr';
-      const webLink = `https://web.telegram.org/k/#@${username}`;
-      const defaultLink = `https://t.me/${username}`;
-      const androidIntent =
-        `intent://resolve?domain=${username}` +
-        `#Intent;scheme=tg;package=org.telegram.messenger;` +
-        `S.browser_fallback_url=${encodeURIComponent(webLink)};end`;
+  // Smooth scroll for in-page anchors only
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', e=>{
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+    });
+  });
 
-      const ua = navigator.userAgent || navigator.vendor || window.opera;
-      const isAndroid = /Android/i.test(ua);
-      const isiOS = /iPhone|iPad|iPod/i.test(ua);
-
-      function resolveLink(){
-        if(isAndroid) return androidIntent;
-        if(isiOS) return webLink;
-        return defaultLink;
-      }
-      function wire(id){
-        const el = document.getElementById(id);
-        if(!el) return;
-        el.addEventListener('click', function(e){
-          const url = resolveLink();
-          try{ e.preventDefault(); window.location.href = url; }
-          catch(_){ /* fallback */ }
-        });
-      }
-      wire('tgLink');
-      wire('tgLinkMobile');
-    })();
-
-    // Reveal on scroll
-    (function(){
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if(prefersReduced) return;
-      const els=[...document.querySelectorAll('.reveal')];
-      const IO = new IntersectionObserver((entries)=>{
-        entries.forEach((entry)=>{
-          if(entry.isIntersecting){
-            const t = entry.target;
-            const delay = parseFloat(t.getAttribute('data-delay')||'0');
-            t.style.transitionDelay = `${delay}s`;
-            t.classList.add('is-visible');
-            IO.unobserve(t);
-          }
-        })
-      },{root:null,threshold:0.15,rootMargin:'0px 0px -10% 0px'});
-      els.forEach(el=>IO.observe(el));
-      // Stagger helper
-      document.querySelectorAll('[data-stagger]').forEach(parent=>{
-        [...parent.children].forEach((child,i)=>{
-          const curr = parseFloat(child.getAttribute('data-delay')||'0');
-          child.setAttribute('data-delay', (curr + i*parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--stagger')||0.08)).toString());
-        })
-      });
-    })();
-
-    // Subtle parallax on the terminal card
-    (function(){
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if(prefersReduced) return;
-      const el = document.querySelector('.parallax');
+  // ALWAYS use t.me deep link for Telegram buttons
+  (function () {
+    const tgUrl = "https://t.me/work_with_trust/30"; // <— your desired target
+    function wire(id){
+      const el = document.getElementById(id);
       if(!el) return;
-      const onScroll = ()=>{
-        const rect = el.getBoundingClientRect();
-        const mid = window.innerHeight/2;
-        const offset = (rect.top - mid) * 0.04;
-        el.style.transform = `translateY(${offset.toFixed(2)}px)`;
-      };
-      onScroll();
-      window.addEventListener('scroll', ()=> requestAnimationFrame(onScroll), {passive:true});
-    })();
-  </script>
-</body>
+      el.addEventListener('click', function(e){
+        e.preventDefault();
+        window.location.href = tgUrl;
+      });
+    }
+    wire('tgLink');
+    wire('tgLinkMobile');
+  })();
+
+  // Reveal on scroll
+  (function(){
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(prefersReduced) return;
+    const els = [...document.querySelectorAll('.reveal')];
+    const IO = new IntersectionObserver((entries)=>{
+      entries.forEach((entry)=>{
+        if(entry.isIntersecting){
+          const t = entry.target;
+          const delay = parseFloat(t.getAttribute('data-delay')||'0');
+          t.style.transitionDelay = `${delay}s`;
+          t.classList.add('is-visible');
+          IO.unobserve(t);
+        }
+      })
+    }, {root:null, threshold:0.15, rootMargin:'0px 0px -10% 0px'});
+    els.forEach(el=>IO.observe(el));
+    // Stagger helper
+    document.querySelectorAll('[data-stagger]').forEach(parent=>{
+      [...parent.children].forEach((child,i)=>{
+        const curr = parseFloat(child.getAttribute('data-delay')||'0');
+        child.setAttribute('data-delay', (curr + i*parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--stagger')||0.08)).toString());
+      })
+    });
+  })();
+
+  // Subtle parallax on the terminal card
+  (function(){
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(prefersReduced) return;
+    const el = document.querySelector('.parallax');
+    if(!el) return;
+    const onScroll = ()=>{
+      const rect = el.getBoundingClientRect();
+      const mid = window.innerHeight/2;
+      const offset = (rect.top - mid) * 0.04;
+      el.style.transform = `translateY(${offset.toFixed(2)}px)`;
+    };
+    onScroll();
+    window.addEventListener('scroll', ()=> requestAnimationFrame(onScroll), {passive:true});
+  })();
+</script>
+</body> 
 </html>
