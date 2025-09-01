@@ -441,7 +441,6 @@ if __name__ == "__main__":
     const burger = document.getElementById('hamburger');
     const dd = document.getElementById('dropdown');
     burger?.addEventListener('click', () => dd.classList.toggle('open'));
-    // Close dropdown on link click
     dd.querySelectorAll('a[href^="#"]').forEach(a=>{
       a.addEventListener('click',()=>dd.classList.remove('open'));
     });
@@ -456,17 +455,48 @@ if __name__ == "__main__":
     });
   });
 
-  // ALWAYS use t.me deep link for Telegram buttons
+  // Prefer native app via tg://; fallback to t.me if not handled
   (function () {
-    const tgUrl = "https://t.me/work_with_trust/30"; // <— your desired target
+    const CHANNEL = "work_with_trust";
+    const POST_ID = "30";
+    const fallbackUrl = `https://t.me/${CHANNEL}/${POST_ID}`;
+    // Telegram deep-link to a specific post in a channel
+    const tgAppUrl = `tg://resolve?domain=${CHANNEL}&post=${POST_ID}`;
+
+    function tryOpenTelegram(e){
+      e.preventDefault();
+
+      const before = Date.now();
+      let didHide = false;
+
+      // If the app opens, the page usually becomes hidden/paused quickly
+      const visHandler = () => { if (document.visibilityState === "hidden") didHide = true; };
+      document.addEventListener("visibilitychange", visHandler, { once: true });
+
+      // Attempt to open the native app
+      // Using assign() keeps history cleaner if it fails and we fallback
+      window.location.assign(tgAppUrl);
+
+      // Fallback after ~900ms if we didn't switch away
+      setTimeout(() => {
+        document.removeEventListener("visibilitychange", visHandler);
+        const elapsed = Date.now() - before;
+        if (!didHide && elapsed < 2000) {
+          // App didn't take over — go to t.me
+          window.location.href = fallbackUrl;
+        }
+      }, 900);
+    }
+
     function wire(id){
       const el = document.getElementById(id);
       if(!el) return;
-      el.addEventListener('click', function(e){
-        e.preventDefault();
-        window.location.href = tgUrl;
-      });
+      el.addEventListener('click', tryOpenTelegram);
+      // Also ensure the href itself is the fallback (for long-press / copy)
+      el.setAttribute('href', fallbackUrl);
+      el.setAttribute('rel', 'noopener');
     }
+
     wire('tgLink');
     wire('tgLinkMobile');
   })();
@@ -488,7 +518,6 @@ if __name__ == "__main__":
       })
     }, {root:null, threshold:0.15, rootMargin:'0px 0px -10% 0px'});
     els.forEach(el=>IO.observe(el));
-    // Stagger helper
     document.querySelectorAll('[data-stagger]').forEach(parent=>{
       [...parent.children].forEach((child,i)=>{
         const curr = parseFloat(child.getAttribute('data-delay')||'0');
