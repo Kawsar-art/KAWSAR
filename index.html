@@ -188,10 +188,6 @@
 
         <div class="handler-links" title="Handlers">
           <!-- Telegram (chooser) -->
-          <a id="tgOfficial" href="https://t.me/work_with_trust/30" aria-label="Telegram">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.036 15.823l-.376 5.3c.538 0 .77-.23 1.048-.505l2.518-2.41 5.215 3.824c.956.528 1.636.251 1.896-.885l3.435-16.114c.305-1.422-.514-1.977-1.45-1.632L1.12 9.6c-1.39.541-1.369 1.318-.236 1.668l5.36 1.673L18.86 6.33c.6-.394 1.147-.176.697.218"/></svg>
-          </a>
-
           <!-- WhatsApp -->
           <a href="https://wa.me/8801782603168?text=Hi%20Kawsar%2C%20I%20saw%20your%20portfolio%20and%20want%20to%20discuss%20a%20project." target="_blank" rel="noopener" aria-label="WhatsApp">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.62-6.003C.122 5.3 5.36 0 12.057 0 15.3 0 18.31 1.264 20.5 3.552a11.8 11.8 0 013.557 8.432c-.003 6.697-5.3 11.935-11.996 11.935-2.043 0-4.003-.517-5.766-1.497L.057 24zm6.597-3.807c1.735.995 3.27 1.591 5.392 1.592 5.377.003 9.76-4.372 9.766-9.749.003-5.39-4.36-9.76-9.752-9.764-5.384-.003-9.761 4.372-9.764 9.756-.001 2.266.658 3.985 1.746 5.69l-.999 3.648 3.611-.173z"/></svg>
@@ -234,8 +230,7 @@
         <a href="#contact">Contact</a>
         <div class="handlers">
           <!-- Simple text trigger for mobile -->
-          <a id="tgOfficialMobile" href="https://t.me/work_with_trust/30" aria-label="Telegram">TG</a>
-              <a id="openTgWebMobile" role="menuitem" href="#">Open in Telegram Web</a>
+          <a id="openTgWebMobile" role="menuitem" href="#">Open in Telegram Web</a>
             </div>
           </div>
           <a href="https://wa.me/8801782603168?text=Hi%20Kawsar%2C%20I%20saw%20your%20portfolio%20and%20want%20to%20discuss%20a%20project." target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
@@ -446,38 +441,6 @@ if __name__ == "__main__":
         if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});} 
       });
     });
-
-    // ===== Telegram official app only (channel post link) =====
-    (function(){
-      const tg = { domain: 'work_with_trust', post: '30' };
-      const ua = navigator.userAgent || navigator.vendor || window.opera;
-      const isAndroid = /Android/i.test(ua);
-      const isiOS = /iPhone|iPad|iPod/i.test(ua);
-
-      const tme = `https://t.me/${tg.domain}/${tg.post}`;
-      const scheme = `tg://resolve?domain=${tg.domain}&post=${tg.post}`;
-      const intentOfficial = `intent://resolve?domain=${tg.domain}&post=${tg.post}#Intent;scheme=tg;package=org.telegram.messenger;S.browser_fallback_url=${encodeURIComponent(tme)};end`;
-
-      function bind(id){
-        const el = document.getElementById(id);
-        if(!el) return;
-        el.addEventListener('click', (e)=>{
-          if(isAndroid){
-            e.preventDefault();
-            window.location.href = intentOfficial;
-          } else if(isiOS){
-            e.preventDefault();
-            const start = Date.now();
-            window.location.href = scheme;
-            setTimeout(()=>{ if(Date.now()-start < 1400) window.location.href = tme; }, 1200);
-          } else {
-            // Desktop: default anchor goes to t.me
-          }
-        });
-      }
-      bind('tgOfficial');
-      bind('tgOfficialMobile');
-    })();
 
     // ===== Reveal on scroll =====
     (function(){
